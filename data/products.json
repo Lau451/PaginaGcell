@@ -1,0 +1,60 @@
+[
+  {
+    "slug": "funda-silicona-iphone-15",
+    "name": "Funda Silicona iPhone 15",
+    "category": "silicona",
+    "compatibleModels": ["iPhone 15"],
+    "description": "Funda de silicona premium con protección en las cuatro esquinas. Suave al tacto y resistente a caídas del día a día.",
+    "images": [
+      {
+        "src": "/products/funda-silicona-iphone-15/flat.jpg",
+        "alt": "Funda Silicona iPhone 15 - vista frontal",
+        "kind": "flat"
+      },
+      {
+        "src": "/products/funda-silicona-iphone-15/with-phone.jpg",
+        "alt": "Funda Silicona iPhone 15 puesta en el celular",
+        "kind": "with-phone"
+      }
+    ],
+    "featured": true,
+    "tags": ["silicona", "iphone15", "nuevo"]
+  },
+  {
+    "slug": "funda-transparente-iphone-14",
+    "name": "Funda Transparente iPhone 14",
+    "category": "transparente",
+    "compatibleModels": ["iPhone 14"],
+    "description": "Funda transparente anti-amarillamiento que muestra el diseño original de tu iPhone. Bordes reforzados para mayor protección.",
+    "images": [
+      {
+        "src": "/products/funda-transparente-iphone-14/flat.jpg",
+        "alt": "Funda Transparente iPhone 14 - vista frontal",
+        "kind": "flat"
+      },
+      {
+        "src": "/products/funda-transparente-iphone-14/with-phone.jpg",
+        "alt": "Funda Transparente iPhone 14 puesta en el celular",
+        "kind": "with-phone"
+      }
+    ],
+    "featured": true,
+    "tags": ["transparente", "iphone14"]
+  },
+  {
+    "slug": "cargador-20w-usb-c",
+    "name": "Cargador Rápido 20W USB-C",
+    "category": "cargadores",
+    "compatibleModels": ["universal"],
+    "description": "Cargador de carga rápida 20W compatible con todos los iPhones con puerto Lightning o USB-C. Incluye cable.",
+    "images": [
+      {
+        "src": "/products/cargador-20w-usb-c/flat.jpg",
+        "alt": "Cargador Rápido 20W USB-C",
+        "kind": "flat"
+      }
+    ],
+    "featured": false,
+    "tags": ["cargador", "usbc", "rapido"]
+  }
+]
