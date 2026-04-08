@@ -1,6 +1,11 @@
 {
   "version": 1,
   "skills": {
+    "critique": {
+      "source": "pbakaus/impeccable",
+      "sourceType": "github",
+      "computedHash": "5ee54cf0fd97e208c1c34a8031d18c60e5512316ba5b289f9aa739d835e4d754"
+    },
     "find-skills": {
       "source": "vercel-labs/skills",
       "sourceType": "github",

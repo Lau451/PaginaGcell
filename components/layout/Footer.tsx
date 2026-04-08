@@ -6,35 +6,34 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-[var(--brand-border)] bg-[var(--brand-accent)] mt-16">
-      <div className="mx-auto max-w-6xl px-4 py-10">
-        <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
-          {/* Brand */}
-          <div>
-            <p className="text-lg font-bold text-[var(--brand-secondary)]">
-              Gcell<span className="text-[var(--brand-primary)]">Shop</span>
-            </p>
-            <p className="mt-1 text-sm text-[var(--brand-text-muted)]">
-              Fundas y accesorios para tu celular
-            </p>
-          </div>
+    <footer className="bg-[var(--brand-secondary)] mt-16">
+      <div className="mx-auto max-w-6xl px-4 py-12">
+        <div className="mb-10 border-b border-white/10 pb-10">
+          <p className="text-4xl font-black uppercase tracking-tight text-white md:text-6xl leading-none">
+            Gcell<span className="text-[var(--brand-primary)]">Shop</span>
+          </p>
+          <p className="mt-2 text-sm text-white/50">
+            Fundas y accesorios para tu celular
+          </p>
+        </div>
 
+        <div className="flex flex-col gap-8 md:flex-row md:justify-between">
           {/* Links */}
-          <div className="flex flex-col gap-2">
-            <p className="text-xs font-semibold uppercase tracking-wider text-gray-400">
+          <div className="flex flex-col gap-3">
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/30">
               Navegación
             </p>
-            <Link href="/" className="text-sm text-gray-600 hover:text-[var(--brand-secondary)]">
+            <Link href="/" className="text-sm font-semibold text-white/70 hover:text-white transition-colors">
               Inicio
             </Link>
-            <Link href="/catalogo" className="text-sm text-gray-600 hover:text-[var(--brand-secondary)]">
+            <Link href="/catalogo" className="text-sm font-semibold text-white/70 hover:text-white transition-colors">
               Catálogo
             </Link>
           </div>
 
           {/* WhatsApp */}
-          <div className="flex flex-col gap-2">
-            <p className="text-xs font-semibold uppercase tracking-wider text-gray-400">
+          <div className="flex flex-col gap-3">
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/30">
               Contacto
             </p>
             {WHATSAPP_CONTACTS.map((contact) => (
@@ -43,7 +42,7 @@ export function Footer() {
                 href={buildWhatsAppUrl(contact.phone, buildGenericMessage())}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 text-sm text-gray-600 hover:text-[#25d366] transition-colors"
+                className="flex items-center gap-2 text-sm font-semibold text-white/70 hover:text-[var(--brand-primary)] transition-colors"
               >
                 <MessageCircle size={14} />
                 {contact.label}
@@ -52,7 +51,7 @@ export function Footer() {
           </div>
         </div>
 
-        <p className="mt-8 border-t border-[var(--brand-border)] pt-6 text-center text-xs text-gray-400">
+        <p className="mt-10 border-t border-white/10 pt-6 text-xs text-white/30">
           © {year} GcellShop. Todos los derechos reservados.
         </p>
       </div>

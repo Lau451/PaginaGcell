@@ -13,7 +13,7 @@ export function CatalogGrid({ products, onReset }: CatalogGridProps) {
   }
 
   return (
-    <div className="grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-6">
+    <div className="grid grid-cols-2 gap-px bg-[var(--brand-border)] md:grid-cols-3">
       {products.map((product, index) => (
         <ProductCard key={product.slug} product={product} priority={index < 4} />
       ))}
