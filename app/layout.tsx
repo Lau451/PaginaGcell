@@ -36,7 +36,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="es" className={`h-full antialiased ${rubik.variable} ${nunitoSans.variable}`}>
-      <body className="flex min-h-full flex-col bg-white text-[var(--foreground)]" style={{ fontFamily: "var(--font-nunito), system-ui, sans-serif" }}>
+      <body className="flex min-h-full flex-col bg-[var(--background)] text-[var(--foreground)]" style={{ fontFamily: "var(--font-nunito), system-ui, sans-serif" }}>
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />

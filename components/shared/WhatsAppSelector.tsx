@@ -29,7 +29,8 @@ export function WhatsAppSelector({
           href={buildWhatsAppUrl(contact.phone, message)}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center justify-center gap-2 rounded-full bg-[#25d366] px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#1da851] active:scale-95"
+          className="flex cursor-pointer items-center justify-center gap-2 bg-[var(--brand-secondary)] px-5 py-3 text-sm font-bold text-white transition-all duration-200 hover:opacity-90 hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(28,74,50,0.35)] active:translate-y-0"
+          style={{ fontFamily: "var(--font-rubik)" }}
         >
           <MessageCircle size={16} />
           {contact.label}

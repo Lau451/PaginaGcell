@@ -12,29 +12,35 @@ export function ProductInfo({ product }: ProductInfoProps) {
   return (
     <div className="flex flex-col gap-5">
       {/* Badge categoría */}
-      <span className="w-fit rounded-full bg-[var(--brand-accent)] px-3 py-1 text-xs font-semibold text-gray-500">
+      <span
+        className="w-fit bg-[var(--brand-secondary)] px-3 py-1 text-[9px] font-black uppercase tracking-[0.18em] text-white"
+        style={{ fontFamily: "var(--font-rubik)" }}
+      >
         {CATEGORY_LABELS[product.category]}
       </span>
 
       {/* Nombre */}
-      <h1 className="text-3xl font-extrabold leading-tight text-[var(--brand-secondary)]">
+      <h1
+        className="text-3xl font-black leading-tight tracking-tight text-[var(--brand-secondary)] md:text-4xl"
+        style={{ fontFamily: "var(--font-rubik)" }}
+      >
         {product.name}
       </h1>
 
       {/* Modelos compatibles */}
       {!isUniversal && (
         <div>
-          <p className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-1">
+          <p className="text-xs font-semibold uppercase tracking-wider text-[var(--brand-text-muted)] mb-1">
             Compatible con
           </p>
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-[var(--foreground)]">
             {(product.compatibleModels as string[]).join(", ")}
           </p>
         </div>
       )}
 
       {/* Descripción */}
-      <p className="text-base text-gray-600 leading-relaxed">{product.description}</p>
+      <p className="text-base text-[var(--brand-text-muted)] leading-relaxed">{product.description}</p>
 
       {/* CTA WhatsApp */}
       <BuyOnWhatsAppButton productName={product.name} productSlug={product.slug} />

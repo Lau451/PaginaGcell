@@ -87,7 +87,7 @@ export function CatalogFilters({ value, onChange, totalResults }: CatalogFilters
         <button
           onClick={() => onChange({ ...value, category: "all", model: "all" })}
           className={cn(
-            "text-left px-0 py-1.5 text-sm font-semibold transition-all border-l-2",
+            "cursor-pointer text-left px-0 py-1.5 text-sm font-semibold transition-all border-l-2",
             value.category === "all"
               ? "border-[var(--brand-secondary)] text-[var(--brand-secondary)] pl-3"
               : "border-transparent text-[var(--brand-text-muted)] hover:text-[var(--brand-secondary)] hover:pl-3"
@@ -100,7 +100,7 @@ export function CatalogFilters({ value, onChange, totalResults }: CatalogFilters
             key={cat}
             onClick={() => onChange({ ...value, category: cat, model: "all" })}
             className={cn(
-              "text-left px-0 py-1.5 text-sm font-semibold transition-all border-l-2",
+              "cursor-pointer text-left px-0 py-1.5 text-sm font-semibold transition-all border-l-2",
               value.category === cat
                 ? "border-[var(--brand-secondary)] text-[var(--brand-secondary)] pl-3"
                 : "border-transparent text-[var(--brand-text-muted)] hover:text-[var(--brand-secondary)] hover:pl-3"
@@ -121,7 +121,7 @@ export function CatalogFilters({ value, onChange, totalResults }: CatalogFilters
             <button
               onClick={() => setModelOpen(!modelOpen)}
               className={cn(
-                "w-full flex items-center justify-between border px-3 py-2.5 text-sm bg-white transition-colors",
+                "w-full cursor-pointer flex items-center justify-between border px-3 py-2.5 text-sm bg-white transition-colors",
                 modelOpen
                   ? "border-[var(--brand-secondary)]"
                   : "border-[var(--brand-border)] hover:border-[var(--brand-secondary)]"
@@ -151,7 +151,7 @@ export function CatalogFilters({ value, onChange, totalResults }: CatalogFilters
                 <button
                   onClick={() => { onChange({ ...value, model: "all" }); setModelOpen(false); }}
                   className={cn(
-                    "w-full text-left px-3 py-2 text-sm border-l-2 transition-all",
+                    "w-full cursor-pointer text-left px-3 py-2 text-sm border-l-2 transition-all",
                     value.model === "all"
                       ? "border-[var(--brand-secondary)] text-[var(--brand-secondary)] font-semibold bg-[var(--brand-accent)]"
                       : "border-transparent text-[var(--brand-text-muted)] hover:text-[var(--brand-secondary)] hover:bg-[var(--brand-accent)]"
@@ -164,7 +164,7 @@ export function CatalogFilters({ value, onChange, totalResults }: CatalogFilters
                     key={model}
                     onClick={() => { onChange({ ...value, model }); setModelOpen(false); }}
                     className={cn(
-                      "w-full text-left px-3 py-2 text-sm border-l-2 transition-all",
+                      "w-full cursor-pointer text-left px-3 py-2 text-sm border-l-2 transition-all",
                       value.model === model
                         ? "border-[var(--brand-secondary)] text-[var(--brand-secondary)] font-semibold bg-[var(--brand-accent)]"
                         : "border-transparent text-[var(--brand-text-muted)] hover:text-[var(--brand-secondary)] hover:bg-[var(--brand-accent)]"
@@ -183,7 +183,7 @@ export function CatalogFilters({ value, onChange, totalResults }: CatalogFilters
       {hasActiveFilters && (
         <button
           onClick={resetAll}
-          className="text-left text-xs font-bold uppercase tracking-wider text-[var(--brand-primary)] hover:underline"
+          className="cursor-pointer text-left text-xs font-bold uppercase tracking-wider text-[var(--brand-primary)] hover:underline"
         >
           Limpiar filtros
         </button>

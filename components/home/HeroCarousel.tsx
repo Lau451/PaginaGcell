@@ -4,8 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState, useCallback } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { WhatsAppSelector } from "@/components/shared/WhatsAppSelector";
-import { buildGenericMessage } from "@/lib/whatsapp";
 
 const SLIDES = [
   {
@@ -91,9 +89,51 @@ export function HeroCarousel() {
         className="absolute inset-0 z-10"
         style={{
           background:
-            "linear-gradient(105deg, rgba(10,10,10,0.95) 0%, rgba(10,10,10,0.78) 38%, rgba(10,10,10,0.30) 65%, transparent 100%)",
+            "linear-gradient(105deg, rgba(28,14,18,0.94) 0%, rgba(28,14,18,0.76) 38%, rgba(28,14,18,0.28) 65%, transparent 100%)",
         }}
       />
+
+      {/* ── Floating badge (decorativo) ── */}
+      <div
+        aria-hidden
+        className="animate-float absolute right-8 top-1/2 z-20 hidden -translate-y-1/2 flex-col items-center gap-2 xl:flex"
+      >
+        <div
+          className="flex h-20 w-20 flex-col items-center justify-center rounded-full border-2 text-center"
+          style={{
+            borderColor: "var(--brand-primary)",
+            backgroundColor: "rgba(10,10,10,0.70)",
+            backdropFilter: "blur(8px)",
+          }}
+        >
+          <span
+            className="block text-2xl font-black leading-none"
+            style={{ color: "var(--brand-primary)", fontFamily: "var(--font-rubik)" }}
+          >
+            +60
+          </span>
+          <span
+            className="block text-[8px] font-bold uppercase tracking-wider text-white/60"
+            style={{ fontFamily: "var(--font-rubik)" }}
+          >
+            modelos
+          </span>
+        </div>
+        {/* Decorative rotating ring */}
+        <svg
+          className="animate-spin-slow absolute inset-0 h-20 w-20"
+          viewBox="0 0 80 80"
+          fill="none"
+          aria-hidden
+        >
+          <circle
+            cx="40" cy="40" r="38"
+            stroke="rgba(37,211,102,0.25)"
+            strokeWidth="1"
+            strokeDasharray="6 6"
+          />
+        </svg>
+      </div>
 
       {/* ── Contenido textual ── */}
       <div className="relative z-20 flex h-full items-center" style={{ minHeight: "inherit" }}>
@@ -155,7 +195,7 @@ export function HeroCarousel() {
             >
               <Link
                 href="/catalogo"
-                className="inline-flex cursor-pointer items-center justify-center bg-white px-7 py-3.5 text-xs font-black uppercase tracking-[0.15em] transition-all duration-200 hover:bg-[var(--brand-primary)] hover:text-white"
+                className="animate-pulse-glow inline-flex cursor-pointer items-center justify-center bg-white px-7 py-3.5 text-xs font-black uppercase tracking-[0.15em] transition-all duration-200 hover:bg-[var(--brand-primary)] hover:text-white"
                 style={{
                   color: "var(--brand-secondary)",
                   fontFamily: "var(--font-rubik)",
@@ -163,7 +203,6 @@ export function HeroCarousel() {
               >
                 Ver catálogo
               </Link>
-              <WhatsAppSelector message={buildGenericMessage()} layout="row" />
             </div>
           </div>
         </div>
