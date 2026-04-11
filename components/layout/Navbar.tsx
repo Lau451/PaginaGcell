@@ -51,18 +51,21 @@ export function Navbar() {
 
   return (
     <>
-      {/* ── Announcement bar ── */}
+      {/* ── Announcement bar — MOBILE OPTIMIZED ── */}
       <div
-        className="w-full py-2.5 text-center"
+        className="w-full py-1.5 sm:py-2.5 text-center"
         style={{ backgroundColor: "var(--brand-primary)" }}
       >
-        <span className="inline-flex items-center justify-center gap-2.5 text-[10px] font-bold uppercase tracking-[0.22em] text-white">
-          <span className="animate-pulse-glow inline-block h-1.5 w-1.5 rounded-full bg-white/80" aria-hidden />
-          Comprá por WhatsApp
-          <span className="mx-1 text-white/30">·</span>
-          Envíos a todo el país
-          <span className="mx-1 text-white/30">·</span>
-          Respuesta inmediata
+        <span className="inline-flex flex-wrap items-center justify-center gap-1.5 sm:gap-2.5 text-[8px] sm:text-[10px] font-bold uppercase tracking-[0.18em] sm:tracking-[0.22em] text-white px-2">
+          <span className="animate-pulse-glow inline-block h-1 sm:h-1.5 w-1 sm:w-1.5 rounded-full bg-white/80 flex-shrink-0" aria-hidden />
+          <span className="sm:hidden">WhatsApp · Envíos · Inmediato</span>
+          <span className="hidden sm:inline">
+            Comprá por WhatsApp
+            <span className="mx-1 text-white/30">·</span>
+            Envíos a todo el país
+            <span className="mx-1 text-white/30">·</span>
+            Respuesta inmediata
+          </span>
         </span>
       </div>
 
@@ -71,9 +74,9 @@ export function Navbar() {
         className="sticky top-0 z-50 w-full bg-[var(--background)]"
         style={{ boxShadow: "0 1px 0 var(--brand-border), 0 4px 16px rgba(123,28,46,0.06)" }}
       >
-        <div className="relative mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+        <div className="relative mx-auto flex max-w-6xl items-center justify-between px-3 sm:px-6 py-3 sm:py-4">
 
-          {/* ── Nav links — izquierda ── */}
+          {/* ── Nav links — izquierda (desktop only) ── */}
           <nav className="hidden md:flex items-center gap-8">
             {NAV_LINKS.map(({ href, label }) => (
               <Link
@@ -118,12 +121,12 @@ export function Navbar() {
           {/* ── Espacio derecho — balance visual ── */}
           <div className="hidden md:block w-[100px]" />
 
-          {/* ── Hamburger — mobile ── */}
+          {/* ── Hamburger — mobile (touch-friendly) ── */}
           <div className="md:hidden ml-auto">
             <button
               onClick={() => setOpen(!open)}
               aria-label={open ? "Cerrar menú" : "Abrir menú"}
-              className="cursor-pointer rounded-full p-2 transition-colors hover:bg-[var(--brand-accent)]"
+              className="cursor-pointer flex items-center justify-center h-10 w-10 rounded-lg transition-colors hover:bg-[var(--brand-accent)]"
               style={{ color: "var(--brand-secondary)" }}
             >
               {open ? <X size={20} /> : <Menu size={20} />}
