@@ -1,5 +1,5 @@
 import type { Product } from "@/types/product";
-import { ProductCard } from "./ProductCard";
+import { CatalogGridAnimated } from "./CatalogGridAnimated";
 import { EmptyState } from "./EmptyState";
 
 interface CatalogGridProps {
@@ -13,10 +13,8 @@ export function CatalogGrid({ products, onReset }: CatalogGridProps) {
   }
 
   return (
-    <div className="grid grid-cols-2 gap-px bg-[var(--brand-border)] md:grid-cols-3">
-      {products.map((product, index) => (
-        <ProductCard key={product.slug} product={product} priority={index < 4} />
-      ))}
+    <div className="bg-[var(--brand-border)]">
+      <CatalogGridAnimated products={products} />
     </div>
   );
 }

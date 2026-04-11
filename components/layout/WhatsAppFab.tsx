@@ -2,8 +2,10 @@
 
 import { useState, useRef, useEffect } from "react";
 import { X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { WhatsAppSelector } from "@/components/shared/WhatsAppSelector";
 import { buildGenericMessage } from "@/lib/whatsapp";
+import { spring, duration, slideUp, staggerContainerFast } from "@/lib/animations";
 
 /* ── Ícono de chat propio — mismo lenguaje visual que el logo ── */
 function ChatBubbleIcon() {
@@ -51,27 +53,61 @@ export function WhatsAppFab() {
 
   return (
     <div ref={ref} className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
-      {/* Popup */}
-      {open && (
-        <div className="rounded-2xl bg-[var(--background)] shadow-xl border border-[var(--brand-border)] p-4 w-52">
-          <p className="mb-3 text-xs font-semibold text-[var(--brand-text-muted)] uppercase tracking-wide">
-            Consultanos por
-          </p>
-          <WhatsAppSelector
-            message={buildGenericMessage()}
-            layout="column"
-          />
-        </div>
-      )}
+      {/* Popup with AnimatePresence */}
+      <AnimatePresence mode="wait">
+        {open && (
+          <motion.div
+            key="fab-popup"
+            initial={{ opacity: 0, y: 12, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 8, scale: 0.95 }}
+            transition={{
+              duration: duration.normal,
+              ...spring.snappy,
+            }}
+            className="rounded-2xl bg-[var(--background)] shadow-xl border border-[var(--brand-border)] p-4 w-52"
+          >
+            <motion.p
+              className="mb-3 text-xs font-semibold text-[var(--brand-text-muted)] uppercase tracking-wide"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.05, duration: duration.fast }}
+            >
+              Consultanos por
+            </motion.p>
+            <motion.div
+              variants={staggerContainerFast}
+              initial="hidden"
+              animate="visible"
+            >
+              <WhatsAppSelector
+                message={buildGenericMessage()}
+                layout="column"
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-      {/* FAB button */}
-      <button
+      {/* FAB button with spring physics */}
+      <motion.button
         onClick={() => setOpen(!open)}
         aria-label="Contactar por WhatsApp"
-        className="flex h-14 w-14 cursor-pointer items-center justify-center rounded-full bg-[var(--brand-secondary)] text-white shadow-lg transition-all duration-200 hover:opacity-90 hover:shadow-[0_6px_20px_rgba(28,74,50,0.4)] active:scale-95"
+        className="flex h-14 w-14 cursor-pointer items-center justify-center rounded-full bg-[var(--brand-secondary)] text-white shadow-lg"
+        whileHover={{ scale: 1.08 }}
+        whileTap={{ scale: 0.92 }}
+        transition={spring.snappy}
       >
-        {open ? <X size={22} /> : <ChatBubbleIcon />}
-      </button>
+        <motion.div
+          key={open ? "x-icon" : "chat-icon"}
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.8 }}
+          transition={{ duration: duration.fast }}
+        >
+          {open ? <X size={22} /> : <ChatBubbleIcon />}
+        </motion.div>
+      </motion.button>
     </div>
   );
 }

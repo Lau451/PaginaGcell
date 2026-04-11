@@ -4,6 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState, useCallback } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { spring, duration, fadeUp, staggerContainer } from "@/lib/animations";
 
 const SLIDES = [
   {
@@ -34,19 +36,19 @@ const AUTOPLAY_MS = 5000;
 export function HeroCarousel() {
   const [current, setCurrent] = useState(0);
   const [paused, setPaused] = useState(false);
-  const [textKey, setTextKey] = useState(0);
+  const [direction, setDirection] = useState(0); // 1 = right/next, -1 = left/prev
 
-  const goTo = useCallback((index: number) => {
+  const goTo = useCallback((index: number, dir: number = 1) => {
     setCurrent(index);
-    setTextKey((k) => k + 1);
+    setDirection(dir);
   }, []);
 
   const prev = useCallback(() => {
-    goTo((current - 1 + SLIDES.length) % SLIDES.length);
+    goTo((current - 1 + SLIDES.length) % SLIDES.length, -1);
   }, [current, goTo]);
 
   const next = useCallback(() => {
-    goTo((current + 1) % SLIDES.length);
+    goTo((current + 1) % SLIDES.length, 1);
   }, [current, goTo]);
 
   useEffect(() => {
@@ -63,25 +65,27 @@ export function HeroCarousel() {
       onMouseLeave={() => setPaused(false)}
       aria-label="Hero GcellShop"
     >
-      {/* ── Fondo: imágenes en crossfade ── */}
-      {SLIDES.map((slide, i) => (
-        <div
-          key={slide.src}
-          aria-hidden={i !== current}
-          className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
-            i === current ? "opacity-100" : "opacity-0 pointer-events-none"
-          }`}
+      {/* ── Fondo: imágenes con slide direccional ── */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={current}
+          initial={{ opacity: 0, x: direction > 0 ? 40 : -40 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: direction > 0 ? -40 : 40 }}
+          transition={{ duration: duration.slow, ease: "easeInOut" }}
+          className="absolute inset-0"
+          aria-hidden={false}
         >
           <Image
-            src={slide.src}
-            alt={slide.alt}
+            src={SLIDES[current].src}
+            alt={SLIDES[current].alt}
             fill
             className="object-cover"
-            priority={i === 0}
+            priority={current === 0}
             sizes="100vw"
           />
-        </div>
-      ))}
+        </motion.div>
+      </AnimatePresence>
 
       {/* ── Overlay gradient: lectura del texto ── */}
       <div
@@ -138,73 +142,78 @@ export function HeroCarousel() {
       {/* ── Contenido textual ── */}
       <div className="relative z-20 flex h-full items-center" style={{ minHeight: "inherit" }}>
         <div className="mx-auto w-full max-w-6xl px-6 py-20 md:py-28">
-          <div className="max-w-xl">
-
-            {/* Label animado por slide */}
-            <div
-              key={`label-${textKey}`}
-              className="animate-fade-up mb-5 flex items-center gap-3"
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={`text-${current}`}
+              className="max-w-xl"
+              variants={staggerContainer}
+              initial="hidden"
+              animate="visible"
+              exit="hidden"
             >
-              <span
-                className="h-px w-10 shrink-0"
-                style={{ backgroundColor: "var(--brand-primary)" }}
-              />
-              <span
-                className="text-[10px] font-bold uppercase tracking-[0.25em]"
-                style={{ color: "var(--brand-primary)", fontFamily: "var(--font-rubik)" }}
+              {/* Label animado por slide */}
+              <motion.div
+                className="mb-5 flex items-center gap-3"
+                variants={fadeUp}
               >
-                {SLIDES[current].label}
-              </span>
-            </div>
+                <span
+                  className="h-px w-10 shrink-0"
+                  style={{ backgroundColor: "var(--brand-primary)" }}
+                />
+                <span
+                  className="text-[10px] font-bold uppercase tracking-[0.25em]"
+                  style={{ color: "var(--brand-primary)", fontFamily: "var(--font-rubik)" }}
+                >
+                  {SLIDES[current].label}
+                </span>
+              </motion.div>
 
-            {/* Heading principal */}
-            <h1
-              key={`h1-${textKey}`}
-              className="animate-fade-up font-display text-white uppercase leading-[0.88] tracking-tight"
-              style={{
-                fontFamily: "var(--font-rubik)",
-                fontWeight: 900,
-                fontSize: "clamp(3.5rem, 9vw, 7rem)",
-                animationDelay: "70ms",
-              }}
-            >
-              {SLIDES[current].headingLine1}<br />
-              <span style={{ color: "var(--brand-primary)" }}>{SLIDES[current].headingAccent}</span>
-            </h1>
-
-            {/* Subtitle */}
-            <p
-              key={`sub-${textKey}`}
-              className="animate-fade-up mt-5 text-sm leading-relaxed md:text-base"
-              style={{
-                color: "rgba(255,255,255,0.60)",
-                fontFamily: "var(--font-nunito)",
-                animationDelay: "130ms",
-                maxWidth: "38ch",
-              }}
-            >
-              Más de 60 modelos. Calidad garantizada,{" "}
-              envíos y atención directa por WhatsApp.
-            </p>
-
-            {/* CTAs */}
-            <div
-              key={`cta-${textKey}`}
-              className="animate-fade-up mt-9 flex flex-wrap items-center gap-4"
-              style={{ animationDelay: "190ms" }}
-            >
-              <Link
-                href="/catalogo"
-                className="animate-pulse-glow inline-flex cursor-pointer items-center justify-center bg-white px-7 py-3.5 text-xs font-black uppercase tracking-[0.15em] transition-all duration-200 hover:bg-[var(--brand-primary)] hover:text-white"
+              {/* Heading principal */}
+              <motion.h1
+                className="font-display text-white uppercase leading-[0.88] tracking-tight"
                 style={{
-                  color: "var(--brand-secondary)",
                   fontFamily: "var(--font-rubik)",
+                  fontWeight: 900,
+                  fontSize: "clamp(3.5rem, 9vw, 7rem)",
                 }}
+                variants={fadeUp}
               >
-                Ver catálogo
-              </Link>
-            </div>
-          </div>
+                {SLIDES[current].headingLine1}<br />
+                <span style={{ color: "var(--brand-primary)" }}>{SLIDES[current].headingAccent}</span>
+              </motion.h1>
+
+              {/* Subtitle */}
+              <motion.p
+                className="mt-5 text-sm leading-relaxed md:text-base"
+                style={{
+                  color: "rgba(255,255,255,0.60)",
+                  fontFamily: "var(--font-nunito)",
+                  maxWidth: "38ch",
+                }}
+                variants={fadeUp}
+              >
+                Más de 60 modelos. Calidad garantizada,{" "}
+                envíos y atención directa por WhatsApp.
+              </motion.p>
+
+              {/* CTAs */}
+              <motion.div
+                className="mt-9 flex flex-wrap items-center gap-4"
+                variants={fadeUp}
+              >
+                <Link
+                  href="/catalogo"
+                  className="animate-pulse-glow inline-flex cursor-pointer items-center justify-center bg-white px-7 py-3.5 text-xs font-black uppercase tracking-[0.15em] transition-all duration-200 hover:bg-[var(--brand-primary)] hover:text-white"
+                  style={{
+                    color: "var(--brand-secondary)",
+                    fontFamily: "var(--font-rubik)",
+                  }}
+                >
+                  Ver catálogo
+                </Link>
+              </motion.div>
+            </motion.div>
+          </AnimatePresence>
         </div>
       </div>
 
@@ -219,20 +228,26 @@ export function HeroCarousel() {
       </div>
 
       {/* ── Flechas de navegación ── */}
-      <button
+      <motion.button
         onClick={prev}
         aria-label="Slide anterior"
-        className="absolute bottom-6 right-16 z-20 flex h-10 w-10 cursor-pointer items-center justify-center border border-white/20 text-white/50 transition-all duration-200 hover:border-white hover:text-white md:bottom-7 md:right-20"
+        className="absolute bottom-6 right-16 z-20 flex h-10 w-10 cursor-pointer items-center justify-center border border-white/20 text-white/50 md:bottom-7 md:right-20"
+        whileHover={{ borderColor: "white", color: "white" }}
+        whileTap={{ scale: 0.9 }}
+        transition={spring.snappy}
       >
         <ChevronLeft size={18} />
-      </button>
-      <button
+      </motion.button>
+      <motion.button
         onClick={next}
         aria-label="Slide siguiente"
-        className="absolute bottom-6 right-5 z-20 flex h-10 w-10 cursor-pointer items-center justify-center border border-white/20 text-white/50 transition-all duration-200 hover:border-white hover:text-white md:bottom-7"
+        className="absolute bottom-6 right-5 z-20 flex h-10 w-10 cursor-pointer items-center justify-center border border-white/20 text-white/50 md:bottom-7"
+        whileHover={{ borderColor: "white", color: "white" }}
+        whileTap={{ scale: 0.9 }}
+        transition={spring.snappy}
       >
         <ChevronRight size={18} />
-      </button>
+      </motion.button>
 
       {/* ── Barra de progreso inferior ── */}
       <div className="absolute bottom-0 left-0 right-0 z-20 flex h-1">
