@@ -1,0 +1,15 @@
+change: wow-factor-v1
+status: spec-complete
+created: "2026-04-11"
+phases:
+  explore: skipped
+  proposal: complete
+  spec: complete
+  design: pending
+  tasks: pending
+  apply: pending
+  verify: pending
+  archive: pending
+artifacts:
+  spec: openspec/changes/wow-factor-v1/spec.md
+next_recommended: sdd-design

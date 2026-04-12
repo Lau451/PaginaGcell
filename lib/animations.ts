@@ -27,6 +27,10 @@ export const duration = {
 export const easing = {
   easeInOut: [0.4, 0, 0.2, 1],    // Smooth curve for entrances
   easeOut: [0.4, 0, 1, 1],        // Deceleration
+  // WOW Factor V1 — extended easing tokens
+  entrance: [0.22, 1, 0.36, 1],   // Fast out, slow finish (premium feel)
+  exit: [0.55, 0, 1, 0.45],       // Fast acceleration on exit
+  bouncy: [0.34, 1.56, 0.64, 1],  // Overshoot — playful bounce
 }
 
 // ── Reusable Variants ──
@@ -85,7 +89,83 @@ export const scaleUp = {
   visible: { opacity: 1, scale: 1 },
 }
 
+// ── WOW Factor V1: Hero Variant Configs ──
+
+// Entrance bezier tuple — typed for Framer Motion compatibility
+const entranceCurve = [0.22, 1, 0.36, 1] as [number, number, number, number];
+
+// Hero image entrance: blur dissolve (desktop only — mobile uses opacity only)
+export const heroImageEntrance = {
+  hidden: { opacity: 0, filter: "blur(12px)" },
+  visible: {
+    opacity: 1,
+    filter: "blur(0px)",
+    transition: { duration: 0.5, ease: entranceCurve },
+  },
+}
+
+// Mobile version: opacity only (no blur — avoids GPU pressure on low-end)
+export const heroImageEntranceMobile = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { duration: 0.5, ease: entranceCurve },
+  },
+}
+
+// Per-word stagger: each word slides up with stagger (desktop)
+export const wordVariant = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.4, ease: entranceCurve },
+  },
+}
+
+// Per-word stagger: mobile version (20% faster)
+export const wordVariantMobile = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.32, ease: entranceCurve },
+  },
+}
+
+// Counter reveal: count up from 0 — used with useMotionValue
+export const counterReveal = {
+  hidden: { opacity: 0, y: 8 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: entranceCurve },
+  },
+}
+
 // ── Container Variants (for staggering children) ──
+
+// Hero text word-stagger container (desktop)
+export const staggerHeroText = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.08,
+      delayChildren: 0.1,
+    },
+  },
+}
+
+// Hero text word-stagger container (mobile — tighter timing)
+export const staggerHeroTextMobile = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.064,
+      delayChildren: 0.08,
+    },
+  },
+}
 
 // Standard stagger: 0.08s delay between children
 export const staggerContainer = {

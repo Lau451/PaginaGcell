@@ -5,7 +5,19 @@ import Link from "next/link";
 import { useEffect, useState, useCallback } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { spring, duration, fadeUp, staggerContainer } from "@/lib/animations";
+import {
+  spring,
+  duration,
+  fadeUp,
+  staggerContainer,
+  heroImageEntrance,
+  heroImageEntranceMobile,
+  wordVariant,
+  wordVariantMobile,
+  staggerHeroText,
+  staggerHeroTextMobile,
+} from "@/lib/animations";
+import { useMotionSafe } from "@/lib/use-motion-safe";
 
 const SLIDES = [
   {
@@ -37,8 +49,12 @@ export function HeroCarousel() {
   const [current, setCurrent] = useState(0);
   const [paused, setPaused] = useState(false);
   const [direction, setDirection] = useState(0); // 1 = right/next, -1 = left/prev
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const { enabled, breakpoint } = useMotionSafe();
+  const isMobile = breakpoint === "mobile";
 
   const goTo = useCallback((index: number, dir: number = 1) => {
+    setImageLoaded(false);
     setCurrent(index);
     setDirection(dir);
   }, []);
@@ -65,7 +81,7 @@ export function HeroCarousel() {
       onMouseLeave={() => setPaused(false)}
       aria-label="Hero GcellShop"
     >
-      {/* ── Fondo: imágenes con slide direccional ── */}
+      {/* ── Fondo: imágenes con slide direccional + blur entrance ── */}
       <AnimatePresence mode="wait">
         <motion.div
           key={current}
@@ -76,14 +92,23 @@ export function HeroCarousel() {
           className="absolute inset-0"
           aria-hidden={false}
         >
-          <Image
-            src={SLIDES[current].src}
-            alt={SLIDES[current].alt}
-            fill
-            className="object-cover"
-            priority={current === 0}
-            sizes="100vw"
-          />
+          {/* Blur entrance: applied on top of the slide transition */}
+          <motion.div
+            className="absolute inset-0"
+            variants={enabled ? (isMobile ? heroImageEntranceMobile : heroImageEntrance) : undefined}
+            initial={enabled ? "hidden" : "visible"}
+            animate={imageLoaded ? "visible" : "hidden"}
+          >
+            <Image
+              src={SLIDES[current].src}
+              alt={SLIDES[current].alt}
+              fill
+              className="object-cover"
+              priority={current === 0}
+              sizes="100vw"
+              onLoad={() => setImageLoaded(true)}
+            />
+          </motion.div>
         </motion.div>
       </AnimatePresence>
 
@@ -146,7 +171,7 @@ export function HeroCarousel() {
             <motion.div
               key={`text-${current}`}
               className="max-w-xl"
-              variants={staggerContainer}
+              variants={isMobile ? staggerHeroTextMobile : staggerContainer}
               initial="hidden"
               animate="visible"
               exit="hidden"
@@ -168,7 +193,7 @@ export function HeroCarousel() {
                 </span>
               </motion.div>
 
-              {/* Heading principal */}
+              {/* Heading principal — word-by-word stagger */}
               <motion.h1
                 className="font-display text-white uppercase leading-[0.88] tracking-tight"
                 style={{
@@ -176,10 +201,30 @@ export function HeroCarousel() {
                   fontWeight: 900,
                   fontSize: "clamp(3.5rem, 9vw, 7rem)",
                 }}
-                variants={fadeUp}
+                variants={enabled ? (isMobile ? staggerHeroTextMobile : staggerHeroText) : fadeUp}
               >
-                {SLIDES[current].headingLine1}<br />
-                <span style={{ color: "var(--brand-primary)" }}>{SLIDES[current].headingAccent}</span>
+                {/* Line 1: split into words */}
+                <span className="block">
+                  {SLIDES[current].headingLine1.split(" ").map((word, wi) => (
+                    <motion.span
+                      key={wi}
+                      className="inline-block mr-[0.25em] last:mr-0"
+                      variants={enabled ? (isMobile ? wordVariantMobile : wordVariant) : fadeUp}
+                      suppressHydrationWarning
+                    >
+                      {word}
+                    </motion.span>
+                  ))}
+                </span>
+                {/* Accent line */}
+                <motion.span
+                  className="block"
+                  style={{ color: "var(--brand-primary)" }}
+                  variants={enabled ? (isMobile ? wordVariantMobile : wordVariant) : fadeUp}
+                  suppressHydrationWarning
+                >
+                  {SLIDES[current].headingAccent}
+                </motion.span>
               </motion.h1>
 
               {/* Subtitle */}

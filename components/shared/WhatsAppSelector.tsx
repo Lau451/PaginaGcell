@@ -3,6 +3,9 @@
 import { WHATSAPP_CONTACTS, buildWhatsAppUrl } from "@/lib/whatsapp";
 import { MessageCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
+import { spring } from "@/lib/animations";
+import { useMotionSafe } from "@/lib/use-motion-safe";
 
 interface WhatsAppSelectorProps {
   message: string;
@@ -15,6 +18,8 @@ export function WhatsAppSelector({
   layout = "row",
   className,
 }: WhatsAppSelectorProps) {
+  const { enabled } = useMotionSafe();
+
   return (
     <div
       className={cn(
@@ -24,17 +29,23 @@ export function WhatsAppSelector({
       )}
     >
       {WHATSAPP_CONTACTS.map((contact) => (
-        <a
+        <motion.a
           key={contact.id}
           href={buildWhatsAppUrl(contact.phone, message)}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex cursor-pointer items-center justify-center gap-2 bg-[var(--brand-secondary)] px-5 py-3 text-sm font-bold text-white transition-all duration-200 hover:opacity-90 hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(28,74,50,0.35)] active:translate-y-0"
+          className={cn(
+            "flex cursor-pointer items-center justify-center gap-2 bg-[var(--brand-secondary)] px-5 py-3 text-sm font-bold text-white transition-colors duration-200 hover:opacity-90",
+            "animate-cta-breathe"
+          )}
           style={{ fontFamily: "var(--font-rubik)" }}
+          whileTap={enabled ? { scale: 0.95 } : undefined}
+          whileHover={enabled ? { y: -2 } : undefined}
+          transition={spring.snappy}
         >
           <MessageCircle size={16} />
           {contact.label}
-        </a>
+        </motion.a>
       ))}
     </div>
   );
